@@ -1,5 +1,5 @@
 const http = require("http");
-const { getProducts, getProduct, createProduct } = require("./controllers/productController");
+const { getProducts, getProduct, createProduct, updateProduct } = require("./controllers/productController");
 
 const server = http.createServer((req, res) => {
 	if (req.url == "/api/products" && req.method == "GET") {
@@ -8,6 +8,9 @@ const server = http.createServer((req, res) => {
 		console.info(req.url);
 		const id = req.url.split("/")[3];
 		getProduct(req, res, id);
+	} else if (req.url.match(/\/api\/product\/\w+/) && req.method == "PUT") {
+		const id = req.url.split("/")[3];
+		updateProduct(req, res, id);
 	} else if (req.url == "/api/products" && req.method == "POST") {
 		createProduct(req, res);
 	} else {
